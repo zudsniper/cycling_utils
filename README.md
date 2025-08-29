@@ -23,7 +23,7 @@ You will also find here some helpful utilities for tracking your metrics and log
 
 It is important when suspending and resuming training to pick up right where you left off, including which epoch and how far through that epoch you had progressed. We provide a sampler for torch dataloaders which has a state dict so it can be saved in a checkpoint. Roughly how it works:
 
-```
+```py
 from cycling_utils import InterruptableDistributedSampler
 
 dataset = ... # your dataset
@@ -71,7 +71,7 @@ loader = DataLoader(dataset, sampler=sampler)
 ### atomic saving
 
 If a process writing to a checkpoint (eg `latest.pt`) is interrupted, it can corrupt the file. If you try and resume from a corrupted checkpoint, this is going to fail your job, and you are going to have to go back to an earlier checkpoint, wasting time. To remedy this, you need to save in an atomic way - making sure the checkpoint saves completely or not at all. For this, we provide a drop in replacement for `torch.save`:
-```
+```py
 from cycling_utils import atomic_torch_save
 
 # usual ml code
@@ -117,7 +117,7 @@ The `strategy` argument to the AtomicDirectory saver at initialization determine
 
 Example usage of AtomicDirectory in synchronous mode on the Strong Compute ISC launching with torchrun as follows.
 
-```
+```py
 >>> import os
 >>> import torch
 >>> import torch.distributed as dist
